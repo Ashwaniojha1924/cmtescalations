@@ -3,6 +3,7 @@ package com.escalation.app.service;
 import com.escalation.app.entity.Conversation;
 import com.escalation.app.entity.Escalation;
 import com.escalation.app.entity.Message;
+import com.escalation.app.exception.ResourceNotFoundException;
 import com.escalation.app.repository.ConversationRepository;
 import com.escalation.app.repository.EscalationRepository;
 import com.escalation.app.repository.MessageRepository;
@@ -29,7 +30,7 @@ public class ConversationService {
         Escalation escalation = escalationRepository.findById(escalationId)
                 .orElseThrow(() -> {
                     logger.error("Escalation not found with id: {}", escalationId);
-                    return new RuntimeException("Escalation not found");
+                    return new ResourceNotFoundException("Escalation", escalationId);
                 });
 
         conversation.setEscalation(escalation);
@@ -57,7 +58,7 @@ public class ConversationService {
         Conversation conversation = conversationRepository.findById(conversationId)
                 .orElseThrow(() -> {
                     logger.error("Conversation not found with id: {}", conversationId);
-                    return new RuntimeException("Conversation not found");
+                    return new ResourceNotFoundException("Conversation", conversationId);
                 });
 
         message.setConversation(conversation);

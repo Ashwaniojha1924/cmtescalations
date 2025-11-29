@@ -1,0 +1,285 @@
+{
+  "info": {
+    "name": "Escalation Management API",
+    "_postman_id": "e9b1d6a0-0000-0000-0000-esc-demo123456",
+    "description": "Postman collection for Escalation + Audit Trail + Conversation & Messages APIs, including Re-Escalation.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Create Escalation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/escalations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "escalations"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"patientId\": \"PAT001\",\n  \"createdBy\": \"NURSE01\",\n  \"priority\": \"HIGH\",\n  \"status\": \"OPEN\",\n  \"summary\": \"Patient has fever and tachypnea\",\n  \"notes\": \"Initial assessment done\",\n  \"admissionId\": \"ADM123\",\n  \"facilityId\": \"FAC45\",\n  \"updatedBy\": \"NURSE01\",\n  \"alertId\": 999,\n  \"specificationId\": 3,\n  \"escalationNotes\": [\n    {\n      \"createdBy\": 101,\n      \"noteType\": \"ESCALATION_NOTE\",\n      \"note\": \"Doctor informed and will review within 10 minutes.\"\n    }\n  ],\n  \"documents\": [\n    {\n      \"uploadedBy\": 2001,\n      \"fileName\": \"lab-report-01.pdf\",\n      \"fileType\": \"application/pdf\",\n      \"docId\": 555\n    }\n  ]\n}"
+        }
+      }
+    },
+    {
+      "name": "Get Escalation by ID",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/escalations/{{escalationId}}",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "escalations",
+            "{{escalationId}}"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Get Escalation Audit Trail",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/escalations/{{escalationId}}/audit",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "escalations",
+            "{{escalationId}}",
+            "audit"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Add Escalation Note (legacy)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/escalations/{{escalationId}}/notes",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "escalations",
+            "{{escalationId}}",
+            "notes"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"createdBy\": 101,\n  \"noteType\": \"ESCALATION_NOTE\",\n  \"note\": \"Doctor notified and reviewing case.\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Add Escalation Document (legacy)",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/escalations/{{escalationId}}/documents",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "escalations",
+            "{{escalationId}}",
+            "documents"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"uploadedBy\": 2001,\n  \"fileName\": \"lab-report-02.pdf\",\n  \"fileType\": \"application/pdf\",\n  \"docId\": 556\n}"
+        }
+      }
+    },
+    {
+      "name": "Create Conversation for Escalation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/escalations/{{escalationId}}/conversations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "escalations",
+            "{{escalationId}}",
+            "conversations"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"title\": \"Doctor Consultation Discussion\"\n}"
+        }
+      }
+    },
+    {
+      "name": "List Conversations for Escalation",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/escalations/{{escalationId}}/conversations",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "escalations",
+            "{{escalationId}}",
+            "conversations"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Add Message to Conversation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/conversations/{{conversationId}}/messages",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "conversations",
+            "{{conversationId}}",
+            "messages"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"senderId\": 2001,\n  \"content\": \"Patient vitals reviewed. Starting treatment now.\"\n}"
+        }
+      }
+    },
+    {
+      "name": "List Messages in Conversation",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/conversations/{{conversationId}}/messages",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "conversations",
+            "{{conversationId}}",
+            "messages"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Re-Escalate Escalation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/api/escalations/{{escalationId}}/re-escalate",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "escalations",
+            "{{escalationId}}",
+            "re-escalate"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"createdBy\": \"HSE_USER01\",\n  \"reEscalationNotes\": \"Patient showing irregular ECG patterns consistent with atrial fibrillation. SpO2 levels dropped below 90%. Immediate clinical review recommended.\",\n  \"attachmentDocIds\": [555, 556],\n  \"priority\": \"HIGH\",\n  \"alertId\": 9005,\n  \"specificationId\": 3\n}"
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    },
+    {
+      "key": "escalationId",
+      "value": "1"
+    },
+    {
+      "key": "conversationId",
+      "value": "1"
+    }
+  ]
+}

@@ -2,6 +2,7 @@ package com.escalation.app.service;
 
 import com.escalation.app.entity.Escalation;
 import com.escalation.app.entity.HseReview;
+import com.escalation.app.exception.ResourceNotFoundException;
 import com.escalation.app.repository.EscalationRepository;
 import com.escalation.app.repository.HseReviewRepository;
 import com.escalation.app.response.HseReviewResponse;
@@ -25,13 +26,13 @@ public class HseReviewService {
         Escalation esc = escalationRepository.findById(escalationId)
                 .orElseThrow(() -> {
                     logger.error("Escalation not found with id: {}", escalationId);
-                    return new RuntimeException("Escalation not found");
+                    return new ResourceNotFoundException("Escalation", escalationId);
                 });
 
         HseReview review = hseReviewRepository.findByEscalation_EscalationId(escalationId)
                 .orElseThrow(() -> {
                     logger.error("HSE Review not found for escalation id: {}", escalationId);
-                    return new RuntimeException("HSE Review not found");
+                    return new ResourceNotFoundException("HSE Review", escalationId);
                 });
 
         HseReviewResponse dto = new HseReviewResponse();
@@ -60,7 +61,7 @@ public class HseReviewService {
         Escalation esc = escalationRepository.findById(escalationId)
                 .orElseThrow(() -> {
                     logger.error("Escalation not found with id: {}", escalationId);
-                    return new RuntimeException("Escalation not found");
+                    return new ResourceNotFoundException("Escalation", escalationId);
                 });
 
         HseReview review = hseReviewRepository.findByEscalation_EscalationId(escalationId)

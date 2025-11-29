@@ -20,14 +20,9 @@ public class HseReviewController {
     @GetMapping("/{id}/hse-review")
     public HseReviewResponse getHseReview(@PathVariable("id") Long escalationId) {
         logger.info("Fetching HSE review for escalation id: {}", escalationId);
-        try {
-            HseReviewResponse review = hseReviewService.getHseReview(escalationId);
-            logger.debug("Successfully retrieved HSE review for escalation id: {}", escalationId);
-            return review;
-        } catch (Exception e) {
-            logger.error("Error fetching HSE review for escalation id: {}", escalationId, e);
-            throw e;
-        }
+        HseReviewResponse review = hseReviewService.getHseReview(escalationId);
+        logger.debug("Successfully retrieved HSE review for escalation id: {}", escalationId);
+        return review;
     }
 
     // ✏️ PUT for saving/updating the HSE Review content
@@ -36,13 +31,8 @@ public class HseReviewController {
             @PathVariable("id") Long escalationId,
             @RequestBody HseReviewResponse request) {
         logger.info("Saving/updating HSE review for escalation id: {}", escalationId);
-        try {
-            HseReviewResponse review = hseReviewService.upsertHseReview(escalationId, request);
-            logger.info("Successfully saved HSE review for escalation id: {}", escalationId);
-            return review;
-        } catch (Exception e) {
-            logger.error("Error saving HSE review for escalation id: {}", escalationId, e);
-            throw e;
-        }
+        HseReviewResponse review = hseReviewService.upsertHseReview(escalationId, request);
+        logger.info("Successfully saved HSE review for escalation id: {}", escalationId);
+        return review;
     }
 }

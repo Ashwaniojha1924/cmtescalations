@@ -1,6 +1,7 @@
 package com.escalation.app.service;
 
 import com.escalation.app.entity.*;
+import com.escalation.app.exception.ResourceNotFoundException;
 import com.escalation.app.repository.*;
 import com.escalation.app.request.CloseEscalationRequest;
 import com.escalation.app.request.EscalationCreateRequest;
@@ -49,7 +50,7 @@ public class EscalationService {
             Specification spec = specificationRepository.findById(req.getSpecificationId())
                     .orElseThrow(() -> {
                         logger.error("Specification not found with id: {}", req.getSpecificationId());
-                        return new RuntimeException("Specification not found");
+                        return new ResourceNotFoundException("Specification", req.getSpecificationId());
                     });
             escalation.setSpecification(spec);
         }
@@ -89,7 +90,7 @@ public class EscalationService {
                 Specification spec = specificationRepository.findById(dto.getSpecificationId())
                         .orElseThrow(() -> {
                             logger.error("Specification not found with id: {}", dto.getSpecificationId());
-                            return new RuntimeException("Specification not found");
+                            return new ResourceNotFoundException("Specification", dto.getSpecificationId());
                         });
 
                 EscalationSpecification es = new EscalationSpecification();
@@ -119,7 +120,7 @@ public class EscalationService {
         return escalationRepository.findById(id)
                 .orElseThrow(() -> {
                     logger.error("Escalation not found with id: {}", id);
-                    return new RuntimeException("Escalation not found");
+                    return new ResourceNotFoundException("Escalation", id);
                 });
     }
 
@@ -139,7 +140,7 @@ public class EscalationService {
         Escalation original = escalationRepository.findById(originalId)
                 .orElseThrow(() -> {
                     logger.error("Original escalation not found with id: {}", originalId);
-                    return new RuntimeException("Original escalation not found");
+                    return new ResourceNotFoundException("Escalation", originalId);
                 });
 
         // 1. Create new escalation based on original
@@ -157,7 +158,7 @@ public class EscalationService {
         neo.setSpecification(
                 req.getSpecificationId() != null
                         ? specificationRepository.findById(req.getSpecificationId())
-                        .orElseThrow(() -> new RuntimeException("Specification not found"))
+                        .orElseThrow(() -> new ResourceNotFoundException("Specification", req.getSpecificationId()))
                         : original.getSpecification()
         );
         neo.setParentEscalation(original);   // self-link for “Past Escalations” tab
@@ -211,7 +212,7 @@ public class EscalationService {
         Escalation escalation = escalationRepository.findById(escalationId)
                 .orElseThrow(() -> {
                     logger.error("Escalation not found with id: {}", escalationId);
-                    return new RuntimeException("Escalation not found");
+                    return new ResourceNotFoundException("Escalation", escalationId);
                 });
 
         // 1) Update escalation status + impact

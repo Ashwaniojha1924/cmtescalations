@@ -22,13 +22,8 @@ public class AuditTrailController {
     @GetMapping("/{id}/audit-trail")
     public List<AuditEventResponse> getAuditTrail(@PathVariable("id") Long escalationId) {
         logger.info("Fetching audit trail for escalation id: {}", escalationId);
-        try {
-            List<AuditEventResponse> auditTrail = auditTrailService.getAuditForEscalation(escalationId);
-            logger.debug("Retrieved {} audit events for escalation id: {}", auditTrail.size(), escalationId);
-            return auditTrail;
-        } catch (Exception e) {
-            logger.error("Error fetching audit trail for escalation id: {}", escalationId, e);
-            throw e;
-        }
+        List<AuditEventResponse> auditTrail = auditTrailService.getAuditForEscalation(escalationId);
+        logger.debug("Retrieved {} audit events for escalation id: {}", auditTrail.size(), escalationId);
+        return auditTrail;
     }
 }

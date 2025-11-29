@@ -29,40 +29,25 @@ public class EscalationController {
     @PostMapping
     public Escalation createEscalation(@RequestBody EscalationCreateRequest request) {
         logger.info("Creating escalation for patientId: {}, admissionId: {}", request.getPatientId(), request.getAdmissionId());
-        try {
-            Escalation escalation = escalationService.createEscalationWithChildren(request);
-            logger.info("Successfully created escalation with id: {}", escalation.getEscalationId());
-            return escalation;
-        } catch (Exception e) {
-            logger.error("Error creating escalation for patientId: {}, admissionId: {}", request.getPatientId(), request.getAdmissionId(), e);
-            throw e;
-        }
+        Escalation escalation = escalationService.createEscalationWithChildren(request);
+        logger.info("Successfully created escalation with id: {}", escalation.getEscalationId());
+        return escalation;
     }
 
     @GetMapping("/{id}")
     public Escalation getEscalation(@PathVariable Long id) {
         logger.info("Fetching escalation with id: {}", id);
-        try {
-            Escalation escalation = escalationService.getEscalation(id);
-            logger.debug("Successfully retrieved escalation with id: {}", id);
-            return escalation;
-        } catch (Exception e) {
-            logger.error("Error fetching escalation with id: {}", id, e);
-            throw e;
-        }
+        Escalation escalation = escalationService.getEscalation(id);
+        logger.debug("Successfully retrieved escalation with id: {}", id);
+        return escalation;
     }
 
     @GetMapping("/{id}/audit")
     public List<AuditTrail> getAudit(@PathVariable Long id) {
         logger.info("Fetching audit trail for escalation id: {}", id);
-        try {
-            List<AuditTrail> auditTrails = escalationService.getAuditForEscalation(id, auditTrailRepository);
-            logger.debug("Retrieved {} audit trail entries for escalation id: {}", auditTrails.size(), id);
-            return auditTrails;
-        } catch (Exception e) {
-            logger.error("Error fetching audit trail for escalation id: {}", id, e);
-            throw e;
-        }
+        List<AuditTrail> auditTrails = escalationService.getAuditForEscalation(id, auditTrailRepository);
+        logger.debug("Retrieved {} audit trail entries for escalation id: {}", auditTrails.size(), id);
+        return auditTrails;
     }
 
 
@@ -71,14 +56,9 @@ public class EscalationController {
             @RequestParam String patientId,
             @RequestParam String admissionId) {
         logger.info("Fetching escalation overview for patientId: {}, admissionId: {}", patientId, admissionId);
-        try {
-            EscalationOverviewResponse overview = escalationQueryService.getOverview(patientId, admissionId);
-            logger.debug("Successfully retrieved overview for patientId: {}, admissionId: {}", patientId, admissionId);
-            return overview;
-        } catch (Exception e) {
-            logger.error("Error fetching overview for patientId: {}, admissionId: {}", patientId, admissionId, e);
-            throw e;
-        }
+        EscalationOverviewResponse overview = escalationQueryService.getOverview(patientId, admissionId);
+        logger.debug("Successfully retrieved overview for patientId: {}, admissionId: {}", patientId, admissionId);
+        return overview;
     }
 
     @PostMapping("/{id}/re-escalate")
@@ -86,14 +66,9 @@ public class EscalationController {
             @PathVariable Long id,
             @RequestBody ReEscalateRequest request) {
         logger.info("Re-escalating escalation id: {} with new priority: {}", id, request.getPriority());
-        try {
-            Escalation escalation = escalationService.reEscalate(id, request);
-            logger.info("Successfully re-escalated. New escalation id: {}", escalation.getEscalationId());
-            return escalation;
-        } catch (Exception e) {
-            logger.error("Error re-escalating escalation id: {}", id, e);
-            throw e;
-        }
+        Escalation escalation = escalationService.reEscalate(id, request);
+        logger.info("Successfully re-escalated. New escalation id: {}", escalation.getEscalationId());
+        return escalation;
     }
 
     @PostMapping("/{id}/close")
@@ -101,14 +76,9 @@ public class EscalationController {
             @PathVariable Long id,
             @RequestBody CloseEscalationRequest request) {
         logger.info("Closing escalation id: {} by user: {}", id, request.getClosedBy());
-        try {
-            Escalation escalation = escalationService.closeEscalation(id, request);
-            logger.info("Successfully closed escalation id: {}", id);
-            return escalation;
-        } catch (Exception e) {
-            logger.error("Error closing escalation id: {}", id, e);
-            throw e;
-        }
+        Escalation escalation = escalationService.closeEscalation(id, request);
+        logger.info("Successfully closed escalation id: {}", id);
+        return escalation;
     }
 
    /* @PostMapping("/{id}/vitals")

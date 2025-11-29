@@ -2,6 +2,7 @@ package com.escalation.app.service;
 
 import com.escalation.app.entity.Escalation;
 import com.escalation.app.entity.EscalationNote;
+import com.escalation.app.exception.ResourceNotFoundException;
 import com.escalation.app.repository.EscalationNoteRepository;
 import com.escalation.app.repository.EscalationRepository;
 import com.escalation.app.response.EscalationOverviewResponse;
@@ -31,7 +32,7 @@ public class EscalationQueryService {
 
         if (escalations.isEmpty()) {
             logger.warn("No escalations found for patientId: {}, admissionId: {}", patientId, admissionId);
-            throw new RuntimeException("No escalations found");
+            throw new ResourceNotFoundException("Escalations", String.format("patientId: %s, admissionId: %s", patientId, admissionId));
         }
         
         logger.debug("Found {} escalations for patientId: {}, admissionId: {}", escalations.size(), patientId, admissionId);

@@ -24,27 +24,17 @@ public class ConversationController {
             @PathVariable Long escalationId,
             @RequestBody Conversation conversation) {
         logger.info("Creating conversation for escalation id: {}", escalationId);
-        try {
-            Conversation created = conversationService.createConversation(escalationId, conversation);
-            logger.info("Successfully created conversation with id: {} for escalation id: {}", created.getConversationId(), escalationId);
-            return created;
-        } catch (Exception e) {
-            logger.error("Error creating conversation for escalation id: {}", escalationId, e);
-            throw e;
-        }
+        Conversation created = conversationService.createConversation(escalationId, conversation);
+        logger.info("Successfully created conversation with id: {} for escalation id: {}", created.getConversationId(), escalationId);
+        return created;
     }
 
     @GetMapping("/escalations/{escalationId}/conversations")
     public List<Conversation> getConversations(@PathVariable Long escalationId) {
         logger.info("Fetching conversations for escalation id: {}", escalationId);
-        try {
-            List<Conversation> conversations = conversationService.getConversationsForEscalation(escalationId);
-            logger.debug("Retrieved {} conversations for escalation id: {}", conversations.size(), escalationId);
-            return conversations;
-        } catch (Exception e) {
-            logger.error("Error fetching conversations for escalation id: {}", escalationId, e);
-            throw e;
-        }
+        List<Conversation> conversations = conversationService.getConversationsForEscalation(escalationId);
+        logger.debug("Retrieved {} conversations for escalation id: {}", conversations.size(), escalationId);
+        return conversations;
     }
 
     @PostMapping("/conversations/{conversationId}/messages")
@@ -52,26 +42,16 @@ public class ConversationController {
             @PathVariable Long conversationId,
             @RequestBody Message message) {
         logger.info("Adding message to conversation id: {}", conversationId);
-        try {
-            Message saved = conversationService.addMessage(conversationId, message);
-            logger.info("Successfully added message with id: {} to conversation id: {}", saved.getMessageId(), conversationId);
-            return saved;
-        } catch (Exception e) {
-            logger.error("Error adding message to conversation id: {}", conversationId, e);
-            throw e;
-        }
+        Message saved = conversationService.addMessage(conversationId, message);
+        logger.info("Successfully added message with id: {} to conversation id: {}", saved.getMessageId(), conversationId);
+        return saved;
     }
 
     @GetMapping("/conversations/{conversationId}/messages")
     public List<Message> getMessages(@PathVariable Long conversationId) {
         logger.info("Fetching messages for conversation id: {}", conversationId);
-        try {
-            List<Message> messages = conversationService.getMessages(conversationId);
-            logger.debug("Retrieved {} messages for conversation id: {}", messages.size(), conversationId);
-            return messages;
-        } catch (Exception e) {
-            logger.error("Error fetching messages for conversation id: {}", conversationId, e);
-            throw e;
-        }
+        List<Message> messages = conversationService.getMessages(conversationId);
+        logger.debug("Retrieved {} messages for conversation id: {}", messages.size(), conversationId);
+        return messages;
     }
 }
